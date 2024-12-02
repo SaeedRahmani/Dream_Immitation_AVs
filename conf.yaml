@@ -2,10 +2,11 @@ wm:
   # dataloader
   dataset_path: "./data/"
   dataset_split: 0.8
+  device: "cuda"
 
   img_width: 128
   img_height: 128
-  batch_size: 2
+  batch_size: 6
   seq_length: 90
   embed_dim: 9216
   action_dim: 2

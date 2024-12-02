@@ -13,7 +13,13 @@ class RSSMTrainer(object):
         self.cfg = cfg
         self.batch_size = self.cfg.wm.batch_size
         
-        self.model = WorldModel(cfg)
+        if not torch.cuda.is_available():
+            self.device = torch.device("cpu")
+        else:
+            self.device = torch.device(self.cfg.wm.device)
+        print(f"Using {self.device}")
+        
+        self.model = WorldModel(cfg).to(self.device)
         self.optimizer = optim.AdamW(
             self.model.parameters(), lr=self.cfg.wm.lr, eps=self.cfg.wm.eps)
         
@@ -71,7 +77,8 @@ class RSSMTrainer(object):
             for idx, batch in enumerate(self.dataloaders["train"]):
                 print(epoch, idx)
                 states, actions = batch
-                actions = actions.permute(1,0,2)
+                states = states.to(self.device)
+                actions = actions.permute(1,0,2).to(self.device)
                 
                 self.optimizer.zero_grad()
 
