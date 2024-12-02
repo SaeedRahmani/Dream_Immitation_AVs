@@ -1,0 +1,25 @@
+wm:
+  # dataloader
+  dataset_path: "./data/"
+  dataset_split: 0.8
+
+  img_width: 128
+  img_height: 128
+  batch_size: 2
+  seq_length: 90
+  embed_dim: 9216
+  action_dim: 2
+  deter_dim: 50
+  stoch_dim: 10
+  stoch_rank: 10
+  hidden_dim: 100
+
+  # KL divergence
+  kl_balance: 0
+  kl_weight: 0
+
+  # Loss
+  image_weight: 1
+
+  lr: 1e-5
+  eps: 1
