@@ -2,11 +2,23 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from omegaconf import DictConfig
-from torch.utils.data import DataLoader, Dataset, Subset
+from torch.utils.data import DataLoader, Dataset, Subset, Sampler
 from torch.amp import GradScaler, autocast
 from ..models.world_model import WorldModel
 from ..data.wm_dataset import WorldModelDataset
 
+class BatchSamplerSkipSmall(Sampler):
+    def __init__(self, data_source, batch_size):
+        self.data_source = data_source
+        self.batch_size = batch_size
+
+    def __iter__(self):
+        indices = torch.randperm(len(self.data_source)).tolist()
+        for i in range(0, len(indices) - self.batch_size + 1, self.batch_size):
+            yield indices[i:i + self.batch_size]
+
+    def __len__(self):
+        return len(self.data_source) // self.batch_size
 
 class RSSMTrainer(object):
     def __init__(self, cfg: DictConfig, do_val=False):
@@ -46,12 +58,15 @@ class RSSMTrainer(object):
         #     """
         #     from torch.utils.data._utils.collate import default_collate
         #     return {k: torch.transpose(v, 0, 1) for k, v in default_collate(batch).items()}
+        skipSmall_sampler = BatchSamplerSkipSmall(data_source=dataset, batch_size=self.batch_size)
 
         dataloader = DataLoader(dataset,
                                 pin_memory=True,
-                                batch_size=self.batch_size,
-                                # batch_sampler=batch_sampler,
-                                # collate_fn=transpose_collate
+                                # batch_size=self.batch_size,
+                                batch_sampler=skipSmall_sampler,
+                                # collat
+                                # 
+                                # e_fn=custom_collate_fn
                                 )
         return dataloader        
                 
@@ -79,10 +94,11 @@ class RSSMTrainer(object):
                 states, actions = batch
                 states = states.to(self.device)
                 actions = actions.permute(1,0,2).to(self.device)
-                
+                actions = torch.nan_to_num(actions, nan=0.0)    # replace NaN value by 0
+                print(states.shape)
                 self.optimizer.zero_grad()
-
-                with autocast(enabled=True, device_type='cpu'):
+                
+                with autocast(enabled=True, device_type=str(self.device)):
                     batch_metrics, decoded_img, out_states, samples = self.model.training_step(
                         states=states, actions=actions, resets=None, in_state=in_states)
                 in_states = out_states

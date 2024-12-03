@@ -10,17 +10,15 @@ wm:
   seq_length: 90
   embed_dim: 9216
   action_dim: 2
-  deter_dim: 50
-  stoch_dim: 10
-  stoch_rank: 10
-  hidden_dim: 100
-
-  # KL divergence
-  kl_balance: 0
-  kl_weight: 0
+  deter_dim: 1024
+  stoch_dim: 32
+  stoch_rank: 32
+  hidden_dim: 1000
 
   # Loss
-  image_weight: 1
+  image_weight: 2.0
+  kl_balance: 0.8
+  kl_weight: 0.1
 
-  lr: 1e-5
-  eps: 1
+  lr: 3e-4
+  eps: 1e-5
