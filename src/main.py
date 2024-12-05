@@ -2,13 +2,13 @@ import hydra
 import torch
 from omegaconf import DictConfig
 
-from src.models.encoders import Encoder
-from src.models.rssm import RSSMCore, RSSMCell
-from src.models.world_model import WorldModel
-from src.data.wm_dataset import WorldModelDataset
-from src.trainer.rssm_trainer import RSSMTrainer
+from models.encoders import Encoder
+from models.rssm import RSSMCore, RSSMCell
+from models.world_model import WorldModel
+from data.wm_dataset import WorldModelDataset
+from trainer.rssm_trainer import RSSMTrainer
 
-@hydra.main(config_name="conf.yaml", config_path="./", version_base="1.3")
+@hydra.main(config_name="conf.yaml", config_path="config/", version_base="1.3")
 def main(cfg: DictConfig):
     
     trainer = RSSMTrainer(cfg)

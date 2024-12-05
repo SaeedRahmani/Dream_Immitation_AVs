@@ -4,8 +4,8 @@ import torch.optim as optim
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset, Subset, Sampler
 from torch.amp import GradScaler, autocast
-from ..models.world_model import WorldModel
-from ..data.wm_dataset import WorldModelDataset
+from models.world_model import WorldModel
+from data.wm_dataset import WorldModelDataset
 
 class BatchSamplerSkipSmall(Sampler):
     def __init__(self, data_source, batch_size):
