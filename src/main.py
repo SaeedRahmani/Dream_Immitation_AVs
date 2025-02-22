@@ -8,11 +8,22 @@ from models.world_model import WorldModel
 from data.wm_dataset import WorldModelDataset
 from trainer.rssm_trainer import RSSMTrainer
 
+from agent import Agent
+from trainer.ac_trainer import ACTrainer
+
 @hydra.main(config_name="conf.yaml", config_path="config/", version_base="1.3")
+
 def main(cfg: DictConfig):
     
     trainer = RSSMTrainer(cfg)
     trainer.train()
+    
+    # Train Actor-Critic Agent
+    policy = ActorCritic(cfg.ac.state_dim, cfg.ac.action_dim)
+    agent = Agent(policy, trainer.model)
+    ac_trainer = ACTrainer(cfg, agent, dataset)
+    ac_trainer.train(num_epochs=cfg.ac.num_epochs)
+    
     
     # wm_dataset = WorldModelDataset(cfg)
     # s, a = wm_dataset[1]
