@@ -9,6 +9,20 @@ from .gru import GRUCellStack
 
 
 class RSSMCore(nn.Module):
+    """
+    Manages the recurrent process of the RSSM.
+
+    Args:
+        cfg: Configuration object.
+
+    Methods:
+        init_state(batch_size): Initializes the deterministic and stochastic states.
+        forward(actions, resets, in_state, embeds): Processes the input sequence and
+                                                    returns the priors, posteriors,
+                                                    samples, features, states, and
+                                                    detached final states.
+    """
+    
     def __init__(
         self,
         cfg: DictConfig,
@@ -79,6 +93,24 @@ class RSSMCore(nn.Module):
     
 
 class RSSMCell(nn.Module):
+    """
+    Performs the computations within a single timestep of the RSSM.
+
+    Args:
+        embed_dim (int): Dimension of the embedded observations.
+        action_dim (int): Dimension of the actions.
+        deter_dim (int): Dimension of the deterministic state.
+        stoch_dim (int): Dimension of the stochastic state.
+        stoch_rank (int): Rank of the stochastic state.
+        hidden_dim (int): Dimension of the hidden layers.
+        gru_layers (int): Number of GRU layers in the stack. Default: 2.
+
+    Methods:
+        init_state(batch_size): Initializes the deterministic and stochastic states.
+        forward(action, reset, in_state, embed): Updates the states and samples from
+                                                 the latent distribution.
+    """
+    
     def __init__(
         self,
         embed_dim: int,

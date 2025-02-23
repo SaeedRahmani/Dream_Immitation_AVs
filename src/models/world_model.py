@@ -27,6 +27,21 @@ class WorldModel(nn.Module):
     It encapsulates the encoder, the RSSM core, and the decoder, along with the 
     logic for the training step and loss calculation. 
     Think of it as the blueprint for the model. 
+
+    Combines the encoder, RSSM core, and decoder into a single model.
+    Args:
+        cfg: Configuration object.
+
+    Methods:
+        init_state(batch_size): Initializes the deterministic and stochastic states.
+        forward(states, actions, resets, in_state): Encodes the states, processes
+                                                   them through the RSSM, and returns
+                                                   the latent features and final state.
+        dream(action, in_state): Performs a "prior prediction" using the RSSM.
+        training_step(states, actions, resets, in_state): Performs a single training
+                                                         step and returns the batch
+                                                         metrics, decoded image, final
+                                                         state, and samples.
     '''
     def __init__(self, cfg: DictConfig):
         super().__init__()

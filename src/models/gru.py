@@ -3,6 +3,18 @@ import torch.nn as nn
 
 
 class GRUCellStack(nn.Module):
+    """
+    A stack of GRU cells used within the RSSM to maintain the deterministic state.
+
+    Args:
+        input_size (int): Size of the input to the GRU stack.
+        hidden_size (int): Total hidden size of the GRU stack.
+        n_layers (int): Number of GRU layers in the stack.
+
+    Methods:
+        forward(input, state): Processes the input through the GRU stack and returns
+                               the concatenated output states.
+    """
 
     def __init__(self, input_size, hidden_size, n_layers):
         super().__init__()

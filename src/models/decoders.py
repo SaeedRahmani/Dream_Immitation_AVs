@@ -10,6 +10,7 @@ class Decoder(nn.Module):
     Args:
         cfg: Configuration object.
         model (str): Type of decoder model ("cnn" or "gnn"). Default: "cnn".
+        TODO: add gnn decoder.
 
     Methods:
         forward(feature, states): Decodes the latent features and returns the loss,

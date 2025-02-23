@@ -3,6 +3,18 @@ import torch.nn as nn
 from torch import Tensor
 
 class Encoder(nn.Module):
+    """
+    Abstract class for encoders, responsible for converting the raw state input
+    into a latent representation.
+
+    Args:
+        cfg: Configuration object.
+        model (str): Type of encoder model ("cnn" or "gnn"). Default: "cnn".
+        TODO: Add gnn encoder.
+
+    Methods:
+        forward(states): Encodes the input states and returns the latent representation.
+    """
     def __init__(
         self,
         cfg,
@@ -22,6 +34,17 @@ class Encoder(nn.Module):
         
               
 class ConvEncoder(nn.Module):
+    """
+    Encoder implementation using a convolutional neural network (CNN).
+
+    Args:
+        kernel (int): Kernel size for the convolutional layers. Default: 4.
+        stride (int): Stride for the convolutional layers. Default: 2.
+        activation (str): Activation function to use ("elu" or "relu"). Default: "elu".
+
+    Methods:
+        forward(states): Encodes the input states and returns the latent representation.
+    """
     def __init__(
         self,
         kernel: int = 4,
