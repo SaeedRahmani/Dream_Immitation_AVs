@@ -10,11 +10,17 @@ from src.trainer.rssm_trainer import RSSMTrainer
 
 @hydra.main(config_name="conf.yaml", config_path="./", version_base="1.3")
 def main(cfg: DictConfig):
-    '''
-    Main function to run the training of the World Model.
-    input: cfg (DictConfig) - Configuration file for the World Model.
-    output: None
-    '''
+    """
+    Main function to run the training of the World Model. 
+
+    This function initializes the RSSMTrainer with the provided configuration
+    and starts the training process. The commented sections provide examples
+    of how to test various components of the World Model, including the dataset,
+    encoder, RSSM core, and the World Model itself.
+    Args:
+        cfg (DictConfig): Configuration object containing all the necessary
+                          parameters for training and testing the World Model.
+    """
     
     trainer = RSSMTrainer(cfg)
     trainer.train()

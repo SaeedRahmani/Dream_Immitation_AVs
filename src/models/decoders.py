@@ -3,6 +3,18 @@ import torch.nn as nn
 from torch import Tensor
 
 class Decoder(nn.Module):
+    """
+    Abstract class for decoders, responsible for converting the latent representation
+    (output of the RSSM) back into a reconstruction of the original input.
+
+    Args:
+        cfg: Configuration object.
+        model (str): Type of decoder model ("cnn" or "gnn"). Default: "cnn".
+
+    Methods:
+        forward(feature, states): Decodes the latent features and returns the loss,
+                                  image loss, and decoded image.
+    """
     def __init__(
         self,
         cfg,
@@ -29,6 +41,18 @@ class Decoder(nn.Module):
             
             
 class ConvDecoder(nn.Module):
+    """
+    Decoder implementation using a transposed convolutional neural network (CNN).
+
+    Args:
+        feature_dim (int): Dimension of the latent features.
+        out_channel (int): Number of output channels for the decoded image. Default: 4.
+        mlp_layers (int): Number of MLP layers to use. Default: 0.
+        activation (str): Activation function to use ("elu" or "relu"). Default: "elu".
+
+    Methods:
+        forward(features, states): Decodes the latent features and returns the loss
+    """
     def __init__(
         self,
         feature_dim: int,

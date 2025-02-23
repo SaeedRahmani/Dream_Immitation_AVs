@@ -22,6 +22,12 @@ def init_weights(m: nn.Module):
 
 
 class WorldModel(nn.Module):
+    '''
+    This file defines the actual architecture and functionality of the world model. 
+    It encapsulates the encoder, the RSSM core, and the decoder, along with the 
+    logic for the training step and loss calculation. 
+    Think of it as the blueprint for the model. 
+    '''
     def __init__(self, cfg: DictConfig):
         super().__init__()
         

@@ -21,6 +21,10 @@ class BatchSamplerSkipSmall(Sampler):
         return len(self.data_source) // self.batch_size
 
 class RSSMTrainer(object):
+    '''
+    This class is responsible for training the world model.
+    It initializes the model, optimizer, and dataloaders, and provides the train method.
+    '''
     def __init__(self, cfg: DictConfig, do_val=False):
         self.cfg = cfg
         self.batch_size = self.cfg.wm.batch_size
