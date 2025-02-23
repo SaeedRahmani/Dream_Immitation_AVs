@@ -10,19 +10,28 @@ from src.trainer.rssm_trainer import RSSMTrainer
 
 @hydra.main(config_name="conf.yaml", config_path="./", version_base="1.3")
 def main(cfg: DictConfig):
+    '''
+    Main function to run the training of the World Model.
+    input: cfg (DictConfig) - Configuration file for the World Model.
+    output: None
+    '''
     
     trainer = RSSMTrainer(cfg)
     trainer.train()
     
+    ### Testing the World Model ###
+    ## Testing the World Model Dataset ##
     # wm_dataset = WorldModelDataset(cfg)
     # s, a = wm_dataset[1]
     # print(a.shape, a.dtype)
     # print(s.shape)
     
+    ## Testing the RSSM Trainer ##
     # encoder = Encoder(cfg)
     # wm = WorldModel(cfg)
     # # rssm_core = RSSMCore()    
 
+    ## Testing the RSSM Core ##
     # states = torch.ones(cfg.wm.batch_size, cfg.wm.seq_length, 3, cfg.wm.img_height, cfg.wm.img_width)
     # actions = torch.ones(cfg.wm.seq_length, cfg.wm.batch_size, cfg.wm.action_dim)
     # resets = torch.ones(cfg.wm.batch_size, cfg.wm.seq_length, 1)
@@ -46,6 +55,7 @@ def main(cfg: DictConfig):
     # # print("Deter", h.shape)
     # # print("Stoch", z.shape)
     
+    ## Testing the World Model ##
     # (h, z) = wm.init_state(cfg.wm.batch_size) 
     # batch_metrics, decoded_img, out_states, samples = wm.training_step(states, actions, resets, (h,z))
     # # print("Feature", _.shape)
